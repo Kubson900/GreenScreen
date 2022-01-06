@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GreenScreenUI
 {
     static class Program
     {
-        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
-        static extern int MyProc1(int a, int b);
+        //[DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
+        //static extern int MyProc1(int a, int b);
 
         //static void Main(string[] args)
         //{

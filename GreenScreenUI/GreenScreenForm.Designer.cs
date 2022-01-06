@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace GreenScreenUI
+﻿namespace GreenScreenUI
 {
     partial class GreenScreenForm
     {

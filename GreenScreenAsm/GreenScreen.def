@@ -1,2 +1,2 @@
 LIBRARY GreenScreenAsm
-EXPORTS MyProc1
+EXPORTS processPictureAssembler

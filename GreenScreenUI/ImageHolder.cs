@@ -8,11 +8,11 @@ namespace GreenScreenUI
 
         public Bitmap OutputImage { get; set; }
 
-        public byte[] PixelArray { get; set; }
+        public byte[] Pixels { get; set; }
 
-        public int GetPixelArraySize()
+        public int GetPixelsSize()
         {
-            return PixelArray.Length;
+            return Pixels.Length;
         }
         public int GetInputHeight()
         {
@@ -23,6 +23,5 @@ namespace GreenScreenUI
         {
             return InputImage.Width;
         }
-
     }
 }
