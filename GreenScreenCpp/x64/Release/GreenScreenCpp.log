@@ -1,0 +1,4 @@
+﻿  GreenScreen.cpp
+     Creating library C:\GreenScreen\x64\Release\GreenScreenCpp.lib and object C:\GreenScreen\x64\Release\GreenScreenCpp.exp
+MSVCRT.lib(exe_main.obj) : error LNK2001: unresolved external symbol main
+C:\GreenScreen\x64\Release\GreenScreenCpp.exe : fatal error LNK1120: 1 unresolved externals

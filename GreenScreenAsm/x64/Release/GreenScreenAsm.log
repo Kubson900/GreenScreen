@@ -1,0 +1,4 @@
+﻿  Assembling GreenScreen.asm...
+     Creating library C:\GreenScreen\x64\Release\GreenScreenAsm.lib and object C:\GreenScreen\x64\Release\GreenScreenAsm.exp
+  LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
+  GreenScreenAsm.vcxproj -> C:\GreenScreen\x64\Release\GreenScreenAsm.dll

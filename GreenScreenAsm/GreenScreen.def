@@ -1,0 +1,2 @@
+LIBRARY GreenScreenAsm
+EXPORTS MyProc1

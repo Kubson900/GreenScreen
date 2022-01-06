@@ -1,0 +1,10 @@
+C:\GreenScreen\GreenScreenUI\bin\x64\Release\GreenScreenUI.exe.config
+C:\GreenScreen\GreenScreenUI\bin\x64\Release\GreenScreenUI.exe
+C:\GreenScreen\GreenScreenUI\bin\x64\Release\GreenScreenUI.pdb
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.csproj.AssemblyReference.cache
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.Properties.Resources.resources
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.csproj.GenerateResource.cache
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.csproj.CoreCompileInputs.cache
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.exe
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.pdb
+C:\GreenScreen\GreenScreenUI\obj\x64\Release\GreenScreenUI.GreenScreenForm.resources

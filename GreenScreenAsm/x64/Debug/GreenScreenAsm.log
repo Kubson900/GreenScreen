@@ -1,0 +1,3 @@
+﻿  Assembling GreenScreen.asm...
+     Creating library C:\GreenScreen\x64\Debug\GreenScreenAsm.lib and object C:\GreenScreen\x64\Debug\GreenScreenAsm.exp
+  GreenScreenAsm.vcxproj -> C:\GreenScreen\x64\Debug\GreenScreenAsm.dll
