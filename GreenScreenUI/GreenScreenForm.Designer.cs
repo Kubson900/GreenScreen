@@ -79,7 +79,7 @@
             this.checkBoxUseAssembler.TabIndex = 2;
             this.checkBoxUseAssembler.Text = "Use Assembler";
             this.checkBoxUseAssembler.UseVisualStyleBackColor = true;
-            this.checkBoxUseAssembler.CheckedChanged += new System.EventHandler(this.checkBoxUseAssembler_CheckedChanged);
+            this.checkBoxUseAssembler.CheckedChanged += new System.EventHandler(this.CheckBoxUseAssembler_CheckedChanged);
             // 
             // buttonUploadPicture
             // 
@@ -89,7 +89,7 @@
             this.buttonUploadPicture.TabIndex = 3;
             this.buttonUploadPicture.Text = "Upload";
             this.buttonUploadPicture.UseVisualStyleBackColor = true;
-            this.buttonUploadPicture.Click += new System.EventHandler(this.buttonUploadPicture_Click);
+            this.buttonUploadPicture.Click += new System.EventHandler(this.ButtonUploadPicture_Click);
             // 
             // buttonRunProgram
             // 
@@ -100,7 +100,7 @@
             this.buttonRunProgram.Text = "Run";
             this.buttonRunProgram.UseVisualStyleBackColor = true;
             this.buttonRunProgram.Enabled = false;
-            this.buttonRunProgram.Click += new System.EventHandler(this.buttonRunProgram_Click);
+            this.buttonRunProgram.Click += new System.EventHandler(this.ButtonRunProgram_Click);
             // 
             // trackBarThreadsNumber
             // 
@@ -113,7 +113,7 @@
             this.trackBarThreadsNumber.Size = new System.Drawing.Size(208, 45);
             this.trackBarThreadsNumber.TabIndex = 5;
             this.trackBarThreadsNumber.Value = 8;
-            this.trackBarThreadsNumber.Scroll += new System.EventHandler(this.trackBarThreadsNumber_Scroll);
+            this.trackBarThreadsNumber.Scroll += new System.EventHandler(this.TrackBarThreadsNumber_Scroll);
             // 
             // labelBefore
             // 
@@ -142,7 +142,7 @@
             this.buttonPickColor.Text = "Pick a color";
             this.buttonPickColor.UseVisualStyleBackColor = true;
             this.buttonPickColor.Enabled = false;
-            this.buttonPickColor.Click += new System.EventHandler(this.buttonPickColor_Click);
+            this.buttonPickColor.Click += new System.EventHandler(this.ButtonPickColor_Click);
             // 
             // textBoxColorPicked
             // 

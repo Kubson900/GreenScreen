@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenScreenCs", "GreenScreenUI\GreenScreenCs.csproj", "{40B62CF4-EA08-40F2-9E30-8EC43C46F5F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenScreenUI", "GreenScreenUI\GreenScreenUI.csproj", "{40B62CF4-EA08-40F2-9E30-8EC43C46F5F2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A9E13351-3CD6-4BBE-B984-41DD639D18D9} = {A9E13351-3CD6-4BBE-B984-41DD639D18D9}
 	EndProjectSection
