@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
+
 
 namespace GreenScreenUI
 {
@@ -114,14 +117,24 @@ namespace GreenScreenUI
             }
             else
             {
-                if (imageHolder.GetPixelsSize() % threadsNumberInUse == 0)
-                {
+                List<byte[]> arrayList = ThreadsUtilities.SplitPixelsToArrays(imageHolder.Pixels, imageHolder.GetPixelsSize(), threadsNumberInUse);
 
+                if (useAssembler)
+                {
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunAsmDll), arrayList, colorPickedRGB);
+                    stopWatch.Start();
+                    ThreadsUtilities.RunThreads(listOfThreads);
+                    stopWatch.Stop();
                 }
                 else
                 {
-
+                    GreenScreenRemover greenScreenRemover = new GreenScreenRemover();
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(greenScreenRemover.processPicture), arrayList, colorPickedRGB);
+                    stopWatch.Start();
+                    ThreadsUtilities.RunThreads(listOfThreads);
+                    stopWatch.Stop();
                 }
+                imageHolder.Pixels = ThreadsUtilities.MergeArray(arrayList);
             }
 
             labelTimeElapsed.Text = ConvertTimeToString(stopWatch.Elapsed);
