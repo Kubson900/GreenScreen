@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,11 +12,11 @@ namespace GreenScreenUI
 {
     public partial class GreenScreenForm : Form
     {
-        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
+        [DllImport(@"C:\\GreenScreen\\x64\\Release\\GreenScreenAsm.dll")]
         public static extern unsafe void removeGreenScreenAsm(byte* pixels, byte* rgbValues, int size);
 
 
-        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenCpp.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\\GreenScreen\\x64\\Release\\GreenScreenCpp.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe void removeGreenScreenCpp(byte* pixels, byte* rgbValues, int size);
 
 
@@ -61,6 +62,7 @@ namespace GreenScreenUI
                 textBoxColorPicked.BackColor = colorDialog.Color;
                 colorPicked = colorDialog.Color;
                 buttonRunProgram.Enabled = true;
+                buttonGenerateRaport.Enabled = true;
             }
         }
 
@@ -177,6 +179,74 @@ namespace GreenScreenUI
             saveFileDialog.ShowDialog();
 
             ImageUtilities.SaveImageToFile(saveFileDialog.FileName, imageHolder.OutputImage);
+        }
+
+        private void buttonGenerateRaport_Click(object sender, EventArgs e)
+        {
+            const int maxAmountOfThreads = 16;
+            byte[] colorPickedInRGB = ImageUtilities.GetRGB(colorPicked);
+            imageHolder.Pixels = ImageUtilities.ToPixels(imageHolder.InputImage);
+            Stopwatch stopWatch = new Stopwatch();
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+            };
+            saveFileDialog.ShowDialog();
+
+            if (string.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                MessageBox.Show("File hasn't been selected!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName);
+
+            streamWriter.WriteLine("Assembler");
+            for (int i = 0; i < maxAmountOfThreads; i++)
+            {
+                if (i == 0)
+                {
+                    stopWatch.Start();
+                    RunAsmDll(imageHolder.Pixels, colorPickedInRGB, imageHolder.GetPixelsSize());
+                    stopWatch.Stop();
+                }
+                else
+                {
+                    List<byte[]> arrayList = ThreadsUtilities.SplitPixelsToArrays(imageHolder.Pixels, imageHolder.GetPixelsSize(), i + 1);
+
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunAsmDll), arrayList, colorPickedInRGB);
+                    stopWatch.Start();
+                    ThreadsUtilities.RunThreads(listOfThreads);
+                    stopWatch.Stop();
+                }
+                streamWriter.WriteLine($"Threads: {i + 1,2}, Time: {ConvertTimeToString(stopWatch.Elapsed)}");
+            }
+
+            streamWriter.WriteLine("\nCpp");
+            for (int i = 0; i < maxAmountOfThreads; i++)
+            {
+                if (i == 0)
+                {
+                    stopWatch.Start();
+                    RunCppDll(imageHolder.Pixels, colorPickedInRGB, imageHolder.GetPixelsSize());
+                    stopWatch.Stop();
+                }
+                else
+                {
+                    List<byte[]> arrayList = ThreadsUtilities.SplitPixelsToArrays(imageHolder.Pixels, imageHolder.GetPixelsSize(), i + 1);
+
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunCppDll), arrayList, colorPickedInRGB);
+                    stopWatch.Start();
+                    ThreadsUtilities.RunThreads(listOfThreads);
+                    stopWatch.Stop();
+                }
+                streamWriter.WriteLine($"Threads: {i + 1,2}, Time: {ConvertTimeToString(stopWatch.Elapsed)}");
+            }
+            streamWriter.Flush();
+            streamWriter.Close();
+            MessageBox.Show("Your raport is ready!", "Ready", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

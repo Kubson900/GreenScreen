@@ -46,6 +46,7 @@ namespace GreenScreenUI
             this.labelThreadsNumberPicked = new System.Windows.Forms.Label();
             this.labelTimeElapsed = new System.Windows.Forms.Label();
             this.ButtonSave = new System.Windows.Forms.Button();
+            this.buttonGenerateRaport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBefore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureAfter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreadsNumber)).BeginInit();
@@ -115,7 +116,7 @@ namespace GreenScreenUI
             this.trackBarThreadsNumber.Name = "trackBarThreadsNumber";
             this.trackBarThreadsNumber.Size = new System.Drawing.Size(208, 45);
             this.trackBarThreadsNumber.TabIndex = 5;
-            this.trackBarThreadsNumber.Value = Environment.ProcessorCount;
+            this.trackBarThreadsNumber.Value = 8;
             this.trackBarThreadsNumber.Scroll += new System.EventHandler(this.TrackBarThreadsNumber_Scroll);
             // 
             // labelBefore
@@ -180,7 +181,7 @@ namespace GreenScreenUI
             this.labelThreadsNumberPicked.Name = "labelThreadsNumberPicked";
             this.labelThreadsNumberPicked.Size = new System.Drawing.Size(13, 13);
             this.labelThreadsNumberPicked.TabIndex = 12;
-            this.labelThreadsNumberPicked.Text = Environment.ProcessorCount.ToString();
+            this.labelThreadsNumberPicked.Text = "8";
             // 
             // labelTimeElapsed
             // 
@@ -202,11 +203,24 @@ namespace GreenScreenUI
             this.ButtonSave.UseVisualStyleBackColor = true;
             this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
+            // buttonGenerateRaport
+            // 
+            this.ButtonSave.Enabled = false;
+            this.buttonGenerateRaport.Enabled = false;
+            this.buttonGenerateRaport.Location = new System.Drawing.Point(692, 400);
+            this.buttonGenerateRaport.Name = "buttonGenerateRaport";
+            this.buttonGenerateRaport.Size = new System.Drawing.Size(96, 38);
+            this.buttonGenerateRaport.TabIndex = 15;
+            this.buttonGenerateRaport.Text = "Generate a raport";
+            this.buttonGenerateRaport.UseVisualStyleBackColor = true;
+            this.buttonGenerateRaport.Click += new System.EventHandler(this.buttonGenerateRaport_Click);
+            // 
             // GreenScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonGenerateRaport);
             this.Controls.Add(this.ButtonSave);
             this.Controls.Add(this.labelTimeElapsed);
             this.Controls.Add(this.labelThreadsNumberPicked);
@@ -250,5 +264,6 @@ namespace GreenScreenUI
         private System.Windows.Forms.Label labelThreadsNumberPicked;
         private System.Windows.Forms.Label labelTimeElapsed;
         private System.Windows.Forms.Button ButtonSave;
+        private System.Windows.Forms.Button buttonGenerateRaport;
     }
 }
