@@ -82,5 +82,27 @@ namespace GreenScreenUI
                 return null;
             }
         }
+
+        public static void SaveImageToFile(string pathToSave, Bitmap bitmap)
+        {
+            //If not null
+            if (string.IsNullOrEmpty(pathToSave) || bitmap is null)
+                return;
+
+            var extension = Path.GetExtension(pathToSave);
+            //Save in chosen format
+            switch (extension)
+            {
+                case ".jpg":
+                    bitmap.Save(pathToSave, ImageFormat.Jpeg);
+                    break;
+                case ".bmp":
+                    bitmap.Save(pathToSave, ImageFormat.Bmp);
+                    break;
+                case ".png":
+                    bitmap.Save(pathToSave, ImageFormat.Png);
+                    break;
+            }
+        }
     }
 }

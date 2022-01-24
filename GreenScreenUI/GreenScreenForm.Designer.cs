@@ -43,6 +43,7 @@
             this.labelThreads = new System.Windows.Forms.Label();
             this.labelThreadsNumberPicked = new System.Windows.Forms.Label();
             this.labelTimeElapsed = new System.Windows.Forms.Label();
+            this.ButtonSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBefore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureAfter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreadsNumber)).BeginInit();
@@ -93,13 +94,13 @@
             // 
             // buttonRunProgram
             // 
+            this.buttonRunProgram.Enabled = false;
             this.buttonRunProgram.Location = new System.Drawing.Point(352, 304);
             this.buttonRunProgram.Name = "buttonRunProgram";
             this.buttonRunProgram.Size = new System.Drawing.Size(96, 23);
             this.buttonRunProgram.TabIndex = 4;
             this.buttonRunProgram.Text = "Run";
             this.buttonRunProgram.UseVisualStyleBackColor = true;
-            this.buttonRunProgram.Enabled = false;
             this.buttonRunProgram.Click += new System.EventHandler(this.ButtonRunProgram_Click);
             // 
             // trackBarThreadsNumber
@@ -107,8 +108,8 @@
             this.trackBarThreadsNumber.AllowDrop = true;
             this.trackBarThreadsNumber.LargeChange = 1;
             this.trackBarThreadsNumber.Location = new System.Drawing.Point(296, 395);
-            this.trackBarThreadsNumber.Minimum = 1;
             this.trackBarThreadsNumber.Maximum = 16;
+            this.trackBarThreadsNumber.Minimum = 1;
             this.trackBarThreadsNumber.Name = "trackBarThreadsNumber";
             this.trackBarThreadsNumber.Size = new System.Drawing.Size(208, 45);
             this.trackBarThreadsNumber.TabIndex = 5;
@@ -135,22 +136,22 @@
             // 
             // buttonPickColor
             // 
+            this.buttonPickColor.Enabled = false;
             this.buttonPickColor.Location = new System.Drawing.Point(120, 304);
             this.buttonPickColor.Name = "buttonPickColor";
             this.buttonPickColor.Size = new System.Drawing.Size(96, 23);
             this.buttonPickColor.TabIndex = 8;
             this.buttonPickColor.Text = "Pick a color";
             this.buttonPickColor.UseVisualStyleBackColor = true;
-            this.buttonPickColor.Enabled = false;
             this.buttonPickColor.Click += new System.EventHandler(this.ButtonPickColor_Click);
             // 
             // textBoxColorPicked
             // 
+            this.textBoxColorPicked.Enabled = false;
             this.textBoxColorPicked.Location = new System.Drawing.Point(120, 333);
             this.textBoxColorPicked.Name = "textBoxColorPicked";
             this.textBoxColorPicked.Size = new System.Drawing.Size(96, 20);
             this.textBoxColorPicked.TabIndex = 9;
-            this.textBoxColorPicked.Enabled = false;
             // 
             // labelTime
             // 
@@ -188,11 +189,23 @@
             this.labelTimeElapsed.TabIndex = 13;
             this.labelTimeElapsed.Text = "0";
             // 
+            // ButtonSave
+            // 
+            this.ButtonSave.Enabled = false;
+            this.ButtonSave.Location = new System.Drawing.Point(579, 216);
+            this.ButtonSave.Name = "ButtonSave";
+            this.ButtonSave.Size = new System.Drawing.Size(96, 38);
+            this.ButtonSave.TabIndex = 14;
+            this.ButtonSave.Text = "Save";
+            this.ButtonSave.UseVisualStyleBackColor = true;
+            this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            // 
             // GreenScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ButtonSave);
             this.Controls.Add(this.labelTimeElapsed);
             this.Controls.Add(this.labelThreadsNumberPicked);
             this.Controls.Add(this.labelThreads);
@@ -234,5 +247,6 @@
         private System.Windows.Forms.Label labelThreads;
         private System.Windows.Forms.Label labelThreadsNumberPicked;
         private System.Windows.Forms.Label labelTimeElapsed;
+        private System.Windows.Forms.Button ButtonSave;
     }
 }

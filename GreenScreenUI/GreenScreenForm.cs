@@ -11,7 +11,7 @@ namespace GreenScreenUI
 {
     public partial class GreenScreenForm : Form
     {
-        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
+        [DllImport(@"C:\\GreenScreen\\x64\\Release\\GreenScreenAsm.dll")]
         public static extern unsafe void processPictureAssembler(byte* pixelArray, byte* colorRgbBytes, int size);
 
         int threadsNumberInUse = 8;
@@ -32,7 +32,6 @@ namespace GreenScreenUI
                 openFileDialog.InitialDirectory = "C:\\GreenScreen\\Examples";
                 openFileDialog.Filter = "Image Files| *.bmp; *.jpg; *.png;| JPG | *.jpg | BMP | *.bmp | PNG | *.png";
                 openFileDialog.RestoreDirectory = true;
-                //openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 
                 openFileDialog.ShowDialog();
 
@@ -140,6 +139,7 @@ namespace GreenScreenUI
             labelTimeElapsed.Text = ConvertTimeToString(stopWatch.Elapsed);
             imageHolder.OutputImage = ImageUtilities.ToOutputBitmap(imageHolder.Pixels, imageHolder.GetInputWidth(), imageHolder.GetInputHeight());
             rightPictureAfter.Image = imageHolder.OutputImage;
+            ButtonSave.Enabled = true;
         }
 
         private string ConvertTimeToString(TimeSpan timeSpan)
@@ -148,6 +148,18 @@ namespace GreenScreenUI
             elapsedTime += " sec";
 
             return elapsedTime;
+        }
+
+        private void ButtonSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Image Files|*.bmp;*.jpg;*.png;|JPG|*.jpg|BMP|*.bmp|PNG|*.png",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+            saveFileDialog.ShowDialog();
+
+            ImageUtilities.SaveImageToFile(saveFileDialog.FileName, imageHolder.OutputImage);
         }
     }
 }
