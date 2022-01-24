@@ -11,8 +11,13 @@ namespace GreenScreenUI
 {
     public partial class GreenScreenForm : Form
     {
-        [DllImport(@"C:\\GreenScreen\\x64\\Release\\GreenScreenAsm.dll")]
+        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
         public static extern unsafe void processPictureAssembler(byte* pixelArray, byte* colorRgbBytes, int size);
+
+
+        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenCpp.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe void processPictureCpp(byte* pixelArray, byte* colorRgbBytes, int size);
+
 
         int threadsNumberInUse = 8;
         string imagePath;
@@ -91,6 +96,20 @@ namespace GreenScreenUI
             }
         }
 
+        private void RunCppDll(byte[] pixelArray, byte[] colorToRemoveRgb, int size)
+        {
+            unsafe
+            {
+                fixed (byte* colorToRemoveRgbPtr = &colorToRemoveRgb[0])
+                {
+                    fixed (byte* pixelArrayPtr = &pixelArray[0])
+                    {
+                        processPictureCpp(pixelArrayPtr, colorToRemoveRgbPtr, size);
+                    }
+                }
+            }
+        }
+
         private void ButtonRunProgram_Click(object sender, EventArgs e)
         {
             imageHolder.Pixels = ImageUtilities.ToPixels(imageHolder.InputImage);
@@ -109,8 +128,7 @@ namespace GreenScreenUI
                 else
                 {
                     stopWatch.Start();
-                    GreenScreenRemover greenScreenRemover = new GreenScreenRemover();
-                    greenScreenRemover.processPicture(imageHolder.Pixels, colorPickedRGB, imageHolder.GetPixelsSize());
+                    RunCppDll(imageHolder.Pixels, colorPickedRGB, imageHolder.GetPixelsSize());
                     stopWatch.Stop();
                 }
             }
@@ -127,8 +145,7 @@ namespace GreenScreenUI
                 }
                 else
                 {
-                    GreenScreenRemover greenScreenRemover = new GreenScreenRemover();
-                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(greenScreenRemover.processPicture), arrayList, colorPickedRGB);
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunCppDll), arrayList, colorPickedRGB);
                     stopWatch.Start();
                     ThreadsUtilities.RunThreads(listOfThreads);
                     stopWatch.Stop();

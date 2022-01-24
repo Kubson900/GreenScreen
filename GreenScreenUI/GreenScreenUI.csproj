@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageHolder.cs" />
-    <Compile Include="GreenScreenRemover.cs" />
     <Compile Include="GreenScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
