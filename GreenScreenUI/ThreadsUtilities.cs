@@ -11,7 +11,9 @@ namespace GreenScreenUI
         {
             List<byte[]> splitPixelArray = new List<byte[]>();
 
-            int moduloSizeThreadsAmount = size % threadsAmount;
+            int pixelsIntoFours = size / 4;
+
+            int moduloSizeThreadsAmount = pixelsIntoFours % threadsAmount;
 
             if (moduloSizeThreadsAmount == 0)
             {
@@ -27,7 +29,7 @@ namespace GreenScreenUI
             }
             else
             {
-                int elementsPerArray = (size - moduloSizeThreadsAmount) / threadsAmount;
+                int elementsPerArray = (pixelsIntoFours - moduloSizeThreadsAmount) / threadsAmount * 4;
                 int startIndex = 0;
                 for (int i = 0; i < threadsAmount - 1; i++)
                 {
@@ -36,8 +38,8 @@ namespace GreenScreenUI
                     splitPixelArray.Add(splitArray);
                     startIndex += elementsPerArray;
                 }
-                byte[] lastArrayWithExtraPixels = new byte[elementsPerArray + moduloSizeThreadsAmount];
-                Array.Copy(pixels, startIndex, lastArrayWithExtraPixels, 0, elementsPerArray + moduloSizeThreadsAmount);
+                byte[] lastArrayWithExtraPixels = new byte[elementsPerArray + moduloSizeThreadsAmount * 4];
+                Array.Copy(pixels, startIndex, lastArrayWithExtraPixels, 0, elementsPerArray + moduloSizeThreadsAmount * 4);
                 splitPixelArray.Add(lastArrayWithExtraPixels);
             }
 

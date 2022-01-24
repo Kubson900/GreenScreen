@@ -1,3 +1,4 @@
-﻿     Creating library C:\GreenScreen\x64\Release\GreenScreenAsm.lib and object C:\GreenScreen\x64\Release\GreenScreenAsm.exp
-  LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
+﻿  Assembling GreenScreen.asm...
+     Trwa tworzenie biblioteki C:\GreenScreen\x64\Release\GreenScreenAsm.lib i obiektu C:\GreenScreen\x64\Release\GreenScreenAsm.exp
+  LINK : określono opcję /LTCG, lecz generowanie kodu nie było wymagane; usuń opcję /LTCG z wiersza polecenia konsolidatora w celu podwyższenia wydajności konsolidatora
   GreenScreenAsm.vcxproj -> C:\GreenScreen\x64\Release\GreenScreenAsm.dll
