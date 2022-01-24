@@ -12,11 +12,11 @@ namespace GreenScreenUI
     public partial class GreenScreenForm : Form
     {
         [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
-        public static extern unsafe void processPictureAssembler(byte* pixelArray, byte* colorRgbBytes, int size);
+        public static extern unsafe void removeGreenScreenAsm(byte* pixels, byte* rgbValues, int size);
 
 
         [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenCpp.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe void processPictureCpp(byte* pixelArray, byte* colorRgbBytes, int size);
+        public static extern unsafe void removeGreenScreenCpp(byte* pixels, byte* rgbValues, int size);
 
 
         int threadsNumberInUse = 8;
@@ -82,29 +82,29 @@ namespace GreenScreenUI
             labelThreadsNumberPicked.Text = threadsNumberInUse.ToString();
         }
 
-        private void RunAsmDll(byte[] pixelArray, byte[] colorToRemoveRgb, int size)
+        private void RunAsmDll(byte[] pixels, byte[] rgbValues, int size)
         {
             unsafe
             {
-                fixed (byte* colorToRemoveRgbPtr = &colorToRemoveRgb[0])
+                fixed (byte* rgbValuesPtr = &rgbValues[0])
                 {
-                    fixed (byte* pixelArrayPtr = &pixelArray[0])
+                    fixed (byte* pixelsPtr = &pixels[0])
                     {
-                        processPictureAssembler(pixelArrayPtr, colorToRemoveRgbPtr, size);
+                        removeGreenScreenAsm(pixelsPtr, rgbValuesPtr, size);
                     }
                 }
             }
         }
 
-        private void RunCppDll(byte[] pixelArray, byte[] colorToRemoveRgb, int size)
+        private void RunCppDll(byte[] pixels, byte[] rgbValues, int size)
         {
             unsafe
             {
-                fixed (byte* colorToRemoveRgbPtr = &colorToRemoveRgb[0])
+                fixed (byte* rgbValuesPtr = &rgbValues[0])
                 {
-                    fixed (byte* pixelArrayPtr = &pixelArray[0])
+                    fixed (byte* pixelsPtr = &pixels[0])
                     {
-                        processPictureCpp(pixelArrayPtr, colorToRemoveRgbPtr, size);
+                        removeGreenScreenCpp(pixelsPtr, rgbValuesPtr, size);
                     }
                 }
             }
@@ -113,7 +113,7 @@ namespace GreenScreenUI
         private void ButtonRunProgram_Click(object sender, EventArgs e)
         {
             imageHolder.Pixels = ImageUtilities.ToPixels(imageHolder.InputImage);
-            byte[] colorPickedRGB = ImageUtilities.GetRGB(colorPicked);
+            byte[] colorPickedInRGB = ImageUtilities.GetRGB(colorPicked);
 
             Stopwatch stopWatch = new Stopwatch();
 
@@ -122,13 +122,13 @@ namespace GreenScreenUI
                 if (useAssembler)
                 {
                     stopWatch.Start();
-                    RunAsmDll(imageHolder.Pixels, colorPickedRGB, imageHolder.GetPixelsSize());
+                    RunAsmDll(imageHolder.Pixels, colorPickedInRGB, imageHolder.GetPixelsSize());
                     stopWatch.Stop();
                 }
                 else
                 {
                     stopWatch.Start();
-                    RunCppDll(imageHolder.Pixels, colorPickedRGB, imageHolder.GetPixelsSize());
+                    RunCppDll(imageHolder.Pixels, colorPickedInRGB, imageHolder.GetPixelsSize());
                     stopWatch.Stop();
                 }
             }
@@ -138,14 +138,14 @@ namespace GreenScreenUI
 
                 if (useAssembler)
                 {
-                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunAsmDll), arrayList, colorPickedRGB);
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunAsmDll), arrayList, colorPickedInRGB);
                     stopWatch.Start();
                     ThreadsUtilities.RunThreads(listOfThreads);
                     stopWatch.Stop();
                 }
                 else
                 {
-                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunCppDll), arrayList, colorPickedRGB);
+                    List<Thread> listOfThreads = ThreadsUtilities.AssignTasksToThreads(new Action<byte[], byte[], int>(this.RunCppDll), arrayList, colorPickedInRGB);
                     stopWatch.Start();
                     ThreadsUtilities.RunThreads(listOfThreads);
                     stopWatch.Stop();

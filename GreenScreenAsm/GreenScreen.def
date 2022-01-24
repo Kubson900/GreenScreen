@@ -1,2 +1,2 @@
 LIBRARY GreenScreenAsm
-EXPORTS processPictureAssembler
+EXPORTS removeGreenScreenAsm

@@ -1,17 +1,17 @@
 extern "C"
 {
-	_declspec(dllexport) void processPictureCpp(unsigned char* pixelArray, unsigned char* colorRgbBytes, int size)
+	_declspec(dllexport) void removeGreenScreenCpp(unsigned char* pixels, unsigned char* rgbValues, int size)
 	{
 		for (int i = 0; i < size; i += 4)
 		{
-			if (pixelArray[i + 1] == colorRgbBytes[0] &&
-				pixelArray[i + 2] == colorRgbBytes[1] &&
-				pixelArray[i + 3] == colorRgbBytes[2])
+			if (pixels[i + 1] == rgbValues[0] &&
+				pixels[i + 2] == rgbValues[1] &&
+				pixels[i + 3] == rgbValues[2])
 			{
-				pixelArray[i] = 0; //A
-				pixelArray[i + 1] = 0; //R
-				pixelArray[i + 2] = 0; //G
-				pixelArray[i + 3] = 0; //B
+				pixels[i] = 0; //A
+				pixels[i + 1] = 0; //R
+				pixels[i + 2] = 0; //G
+				pixels[i + 3] = 0; //B
 			}
 		}
 	}

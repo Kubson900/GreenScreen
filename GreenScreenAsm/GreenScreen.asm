@@ -2,7 +2,7 @@
 .data
 	dqwColorArray db 16 dup (?) ;Array which will fill xmm register with bytest from color to remove.
 .code
-processPictureAssembler PROC
+removeGreenScreenAsm PROC
 		;Move data aqquired from C# function call to general purpouse registers.
 		MOV r9, rcx ;Photo pixels in bytes.
 		MOV r10, rdx ;Removable color.
@@ -126,6 +126,6 @@ exit:
 mov rax,0
 ret
 
-processPictureAssembler ENDP
+removeGreenScreenAsm ENDP
 
 end
