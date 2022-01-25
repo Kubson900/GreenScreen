@@ -51,6 +51,7 @@ namespace GreenScreenUI
                     leftPictureBefore.ImageLocation = imagePath;
                     imageHolder = new ImageHolder { InputImage = new Bitmap(imagePath) };
                     buttonPickColor.Enabled = true;
+                    LabelFileLocation.Text = imagePath;
                 }
             }
         }
@@ -159,6 +160,7 @@ namespace GreenScreenUI
             imageHolder.OutputImage = ImageUtilities.ToOutputBitmap(imageHolder.Pixels, imageHolder.GetInputWidth(), imageHolder.GetInputHeight());
             rightPictureAfter.Image = imageHolder.OutputImage;
             ButtonSave.Enabled = true;
+            MessageBox.Show("Your image is ready!", "Ready", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private string ConvertTimeToString(TimeSpan timeSpan)

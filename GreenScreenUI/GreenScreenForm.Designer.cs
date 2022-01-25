@@ -47,6 +47,8 @@ namespace GreenScreenUI
             this.labelTimeElapsed = new System.Windows.Forms.Label();
             this.ButtonSave = new System.Windows.Forms.Button();
             this.buttonGenerateRaport = new System.Windows.Forms.Button();
+            this.LabelChooseFile = new System.Windows.Forms.Label();
+            this.LabelFileLocation = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.leftPictureBefore)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightPictureAfter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreadsNumber)).BeginInit();
@@ -205,7 +207,6 @@ namespace GreenScreenUI
             // 
             // buttonGenerateRaport
             // 
-            this.ButtonSave.Enabled = false;
             this.buttonGenerateRaport.Enabled = false;
             this.buttonGenerateRaport.Location = new System.Drawing.Point(692, 400);
             this.buttonGenerateRaport.Name = "buttonGenerateRaport";
@@ -215,11 +216,30 @@ namespace GreenScreenUI
             this.buttonGenerateRaport.UseVisualStyleBackColor = true;
             this.buttonGenerateRaport.Click += new System.EventHandler(this.buttonGenerateRaport_Click);
             // 
+            // LabelChooseFile
+            // 
+            this.LabelChooseFile.AutoSize = true;
+            this.LabelChooseFile.Location = new System.Drawing.Point(47, 256);
+            this.LabelChooseFile.Name = "LabelChooseFile";
+            this.LabelChooseFile.Size = new System.Drawing.Size(62, 13);
+            this.LabelChooseFile.TabIndex = 16;
+            this.LabelChooseFile.Text = "Chosen file:";
+            // 
+            // LabelFileLocation
+            // 
+            this.LabelFileLocation.AutoSize = true;
+            this.LabelFileLocation.Location = new System.Drawing.Point(47, 279);
+            this.LabelFileLocation.Name = "LabelFileLocation";
+            this.LabelFileLocation.Size = new System.Drawing.Size(0, 13);
+            this.LabelFileLocation.TabIndex = 17;
+            // 
             // GreenScreenForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.LabelFileLocation);
+            this.Controls.Add(this.LabelChooseFile);
             this.Controls.Add(this.buttonGenerateRaport);
             this.Controls.Add(this.ButtonSave);
             this.Controls.Add(this.labelTimeElapsed);
@@ -265,5 +285,7 @@ namespace GreenScreenUI
         private System.Windows.Forms.Label labelTimeElapsed;
         private System.Windows.Forms.Button ButtonSave;
         private System.Windows.Forms.Button buttonGenerateRaport;
+        private System.Windows.Forms.Label LabelChooseFile;
+        private System.Windows.Forms.Label LabelFileLocation;
     }
 }
