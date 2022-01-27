@@ -118,7 +118,7 @@ namespace GreenScreenUI
             this.trackBarThreadsNumber.Name = "trackBarThreadsNumber";
             this.trackBarThreadsNumber.Size = new System.Drawing.Size(208, 45);
             this.trackBarThreadsNumber.TabIndex = 5;
-            this.trackBarThreadsNumber.Value = 8;
+            this.trackBarThreadsNumber.Value = Environment.ProcessorCount;
             this.trackBarThreadsNumber.Scroll += new System.EventHandler(this.TrackBarThreadsNumber_Scroll);
             // 
             // labelBefore
@@ -183,7 +183,7 @@ namespace GreenScreenUI
             this.labelThreadsNumberPicked.Name = "labelThreadsNumberPicked";
             this.labelThreadsNumberPicked.Size = new System.Drawing.Size(13, 13);
             this.labelThreadsNumberPicked.TabIndex = 12;
-            this.labelThreadsNumberPicked.Text = "8";
+            this.labelThreadsNumberPicked.Text = Environment.ProcessorCount.ToString();
             // 
             // labelTimeElapsed
             // 

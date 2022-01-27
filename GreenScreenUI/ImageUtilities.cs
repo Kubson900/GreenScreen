@@ -5,9 +5,15 @@ using System.Windows.Media.Imaging;
 
 namespace GreenScreenUI
 {
+    /*
+     *  Klasa zawiera przydatne metody do operowania na zdjeciach
+     */
     class ImageUtilities
     {
-        //Required format to show result in GUI
+        /*
+         *  Metoda przyjmuje bitmape
+         *  Dostosowywuje bitmape pod GUI
+         */
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
         {
             MemoryStream memoryStream = new MemoryStream();
@@ -23,25 +29,10 @@ namespace GreenScreenUI
             return bitmapImage;
         }
 
-        //Convert pixels from byte array to bitmap object
-        public static Bitmap ToOutputBitmap(byte[] pixels, int width, int height)
-        {
-            Bitmap outputBitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-
-            int pixelIndex = 0;
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    var pixelColor = Color.FromArgb(pixels[pixelIndex], pixels[pixelIndex + 1], pixels[pixelIndex + 2], pixels[pixelIndex + 3]);
-                    outputBitmap.SetPixel(j, i, pixelColor);
-                    pixelIndex += 4;
-                }
-            }
-            return outputBitmap;
-        }
-
-        //Gets pixel ARGB values as Byte array
+        /*
+         *  Metoda przyjmuje bitmape
+         *  Zwraca ciag pikseli ARGBARGB
+         */
         public static byte[] ToPixels(Bitmap inputBitmap)
         {
             int width = inputBitmap.Width;
@@ -66,6 +57,10 @@ namespace GreenScreenUI
             return pixels;
         }
 
+        /*
+         *  Metoda przyjmuje kolor wskazany przez uzytkownika przez GUI
+         *  Zwraca ciag wartosci RGB
+         */
         public static byte[] GetRGB(Color color)
         {
             if (color != null)
@@ -83,6 +78,31 @@ namespace GreenScreenUI
             }
         }
 
+        /*
+         *  Metoda przyjmuje ciag pikseli ARGB, szerokosc oraz wysokosc zdjecia
+         *  Zwraca bitmape
+         */
+        public static Bitmap ToOutputBitmap(byte[] pixels, int width, int height)
+        {
+            Bitmap outputBitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+            int pixelIndex = 0;
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    var pixelColor = Color.FromArgb(pixels[pixelIndex], pixels[pixelIndex + 1], pixels[pixelIndex + 2], pixels[pixelIndex + 3]);
+                    outputBitmap.SetPixel(j, i, pixelColor);
+                    pixelIndex += 4;
+                }
+            }
+            return outputBitmap;
+        }
+
+        /*
+         *  Metoda przyjmuje sciezke z rozszerzeniem pliku oraz bitmape
+         *  Zapisuje zdjecie w wybranym formacie do wskazanej lokalizacji
+         */
         public static void SaveImageToFile(string pathToSave, Bitmap bitmap)
         {
             //If not null

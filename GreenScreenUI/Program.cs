@@ -3,6 +3,10 @@ using System.Windows.Forms;
 
 namespace GreenScreenUI
 {
+    /*
+     *  Punkt wejsciowy programu
+     *  Uruchamia GUI
+     */
     static class Program
     {
         [STAThread]

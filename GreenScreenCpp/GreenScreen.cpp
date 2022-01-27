@@ -1,5 +1,12 @@
 extern "C"
 {
+	/*
+	*	Funkcja przyjmuje adres pierwszego elementu ciagu pikseli ARGB
+	*	adres pierwszego elementu wartosci RGB wybranego koloru
+	*	rozmiar tablicy pikseli
+	*	Jezeli kazda z wartosci RGB piksela oraz koloru wskazanego przez uzytkownika bedzie taka sama
+	*	kazda z wartosci ARGB piksela rownana jest z zerem
+	*/
 	_declspec(dllexport) void removeGreenScreenCpp(unsigned char* pixels, unsigned char* rgbValues, int size)
 	{
 		for (int i = 0; i < size; i += 4)

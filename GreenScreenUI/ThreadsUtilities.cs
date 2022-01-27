@@ -5,8 +5,14 @@ using System.Threading;
 
 namespace GreenScreenUI
 {
+    // klasa odpowiedzialna wielowatkowosc aplikacji
     class ThreadsUtilities
     {
+        /*
+         *  Metoda przyjmuje ciag pikseli ARGBARGB, wielkosc tej tablicy oraz wybrana ilosc watkow
+         *  Rowno rozdziela czworki ARGB do tablic, aby kazdy watek mial tyle samo zadan do wykonania
+         *  Jezeli nie jest mozliwe rowne rozdzielenie ostatni watek otrzymuje nadmiarowe piksele
+         */
         public static List<byte[]> SplitPixelsToArrays(byte[] pixels, int size, int threadsAmount)
         {
             List<byte[]> splitPixelArray = new List<byte[]>();
@@ -45,7 +51,12 @@ namespace GreenScreenUI
 
             return splitPixelArray;
         }
-       
+
+        /*
+         *  Metoda przyjmuje metode trojargumentowa, ktora nic nie zwraca, liste tablic wypelnionych rowno pikselami zgodnie z watkami
+         *  oraz tablice wartosci rgb koloru wybranego przez uzytkownika
+         *  Zwraca liste watkow z przypisanymi zadaniami gotowymi do wykonania
+         */
         public static List<Thread> AssignTasksToThreads(Action<byte[], byte[], int> function, List<byte[]> splitPixelArray, byte[] arrayRgbColorBytes)
         {
             List<Thread> listOfThread = new List<Thread>();
@@ -59,6 +70,10 @@ namespace GreenScreenUI
 
         }
 
+        /*
+         *  Metoda przyjmuje liste watkow z przypisanymi zadaniami do wykonania
+         *  Dla kazdego watku wykonuje wskazanie zadanie
+         */
         public static void RunThreads(List<Thread> listOfThreads)
         {
             foreach (Thread thread in listOfThreads)
@@ -67,6 +82,11 @@ namespace GreenScreenUI
                 thread.Join();
             }
         }
+
+        /*
+         *  Metoda przyjmuje liste tablic pikseli, dla ktorych wykonano algorytm usuwania tla
+         *  Zwraca ciag pikseli ARGB
+         */
         public static byte[] MergeArray(List<byte[]> splitPixelArray)
         {
             byte[] newPixelArray = new byte[splitPixelArray.Sum(array => array.Length)];

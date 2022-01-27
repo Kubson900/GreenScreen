@@ -1,110 +1,116 @@
 
 .data
-	dqwColorArray db 16 dup (?) ;Array which will fill xmm register with bytest from color to remove.
+	dqwColorArray db 16 dup (?)									;Tablica, ktora uzupelni rejestr xmm bajtami koloru wybranego przez uzytkownika do usuniecia
+	
 .code
 removeGreenScreenAsm PROC
-		;Move data aqquired from C# function call to general purpouse registers.
-		MOV r9, rcx ;Photo pixels in bytes.
-		MOV r10, rdx ;Removable color.
-		MOV r11, r8 ;Amount of bytes (in array stored in r9 register).
+;Przeniesienie danych wejsciowych z wywolania funkcji do rejestrow
+		MOV r9, rcx												;ciag pikseli ARGB w bajtach
+		MOV r10, rdx											;kolor do usuniecia
+		MOV r11, r8												;liczba bajtow, rozmiar tablicy pikseli rejestru r9
 
-		XOR rcx, rcx ;Clear counter.
-		MOV rax, OFFSET dqwColorArray ;Move array address ro RAX 
+		XOR rcx, rcx											;czyszczenie licznika
+		MOV rax, OFFSET dqwColorArray							;przeniesienie adresu tablicy do rax
 
-;Fill dqwColorArray with color to remove.
-;Sequence: A R G B
+;wypelnienie dqwColorArray kolorem do usuniecia
+;Kolejnosc: ARGB
 xmmFilerLoop:
-		;Alpha is hardcoded to 255 and in not taken from GUI
+;Kanal alfa jest sztywno ustawiony na 255 i nie pobierany z GUI
 		XOR r12,r12
 		NOT r12
 		MOV [rax], r12b
 		
-		;R value is read from GUI input and saved to array
+;wartosc R pobierana z GUI zapisywana do tablicy
 		ADD rax,TYPE dqwColorArray 
 		MOV r12b, [r10]
 		MOV [rax], r12b
 		
-		;G value is read from GUI input and saved to array
+;wartosc G pobierana z GUI zapisywana do tablicy
 		ADD rax,TYPE dqwColorArray 
 		MOV r12b, [r10+1]
 		MOV [rax], r12b
 
-		;B value is read from GUI input and saved to array
+;wartosc B pobierana z GUI zapisywana do tablicy
 		ADD rax,TYPE dqwColorArray 
 		MOV r12b, [r10+2]
 		MOV [rax], r12b
 
-		;Move further in dqwColorArray and increment counter by 4.
+;przejscie dalej w dqwColorArray i inkrementacja licznika o 4
 		ADD rax,TYPE dqwColorArray 
 		ADD rcx, 4
 
-		;Chcek if whole array was filled.
+;sprawdzenie czy cala tablica jest wypelniona
 		CMP rcx, 16
 		JNE xmmFilerLoop
 		
-		;Use array to fill xmm0 register
+;uzycie tablicy do wypelnienia rejestru xmm0
 		MOV rax, OFFSET dqwColorArray
-		MOVDQU xmm0, [rax] ;Move double quad word unalligned
+		MOVDQU xmm0, [rax]										;przeniesienie 4 pikseli (16 bajtow) z tablicy pikseli do xmm1
 
-;Procces picture data 
+;przetwarzanie obrazu
 
-		;Picture size smaller ten 4 px (16 bytes)
+;obraz mniejszy niz 4px (16 bajtow)
 		CMP r11, 16
-		JB lessThen16 ;If smaller jump
+		JB lessThen16											;skok jezeli mniejszy
 		
-		MOV rax, r9 ;Push pixelArray (in bytes) to RAX
-sseLoop:		
-		MOVDQU xmm1, [rax] ;Move 16 bytes (4 pixels) from PixelArray to xmm
-		PCMPEQD xmm0, xmm1 ;Check if quadwords (pixels) are equals if so change in xmm0 pixel bits to 1
-		PCMPEQD xmm2, xmm2 ;Set all xmm2 bits to 1
-		PXOR xmm0,xmm2 ;PXOR + previous instruction makes bitwise negation of xmm0 bits 
-		PAND xmm1, xmm0 ;Clear appropriate bits in xmm1
-		MOVDQU [rax], xmm1 ;Save changed pixels back to array
+		MOV rax, r9												;przeniesienie tablicy pikseli do RAX
 
-		ADD rax, 16 ;Mov to next bytes in pixelArray
+sseLoop:		
+		MOVDQU xmm1, [rax]										;przniesienie 4 pikseli (16 bajtow) z tablicy pikseli do xmm
+		PCMPEQD xmm0, xmm1										;sprawdzenie czy cztery piksele sa rowne, jezeli tak zamiana bitow pikseli na 1 w xmm0
+		PCMPEQD xmm2, xmm2										;ustawienie wszystkich bitow xmm2 na 1
+		PXOR xmm0,xmm2											;PXOR + poprzednia instrukcja, negacja bitowa bitow xmm0
+		PAND xmm1, xmm0											;wyczyszczenie odpowiednich bitow w xmm1
+		MOVDQU [rax], xmm1										;zapisanie zmienionych bitow do tablicy
+
+		ADD rax, 16												;przejscie do kolejnych pikseli w tablicy
 		
-		SUB r11, 16 ;Reduce unprocessed bytes amount by 16
-		CMP r11, 0 ;Check if bytes amount is enough to fill xmm register.
+		SUB r11, 16												;zmniejszenie nieprzetworzonych bajtow o 16
+		CMP r11, 0												;sprawdzenie czy ilosc bajtow jest wystarczajaca do wypelnienia rejestru xmm
 		JLE restPixelLoop
 		
 		
-		;Refil xmm0
+;uzupelnienie xmm0
 		MOV r13, OFFSET dqwColorArray 
 		MOVDQU xmm0, [r13]
 		JMP sseLoop
-;Responsible for rest of pixels (less than 16 left)
+
+;odpowiedzialny za reszte pikseli (zostalo mniej niz 16)
 restPixelLoop:
-		;Else proces leftovers
+;przetworzenie pozostalych
 		add r11, 16
 
 	
 lessThen16:
-		;If all processed exit
+;wyjscie jezeli wszystkie zostaly przetworzone
 		CMP r11, 0 
 		JZ exit	
 
-		;Check A
+;sprawdzenie A
 		mov r12b, 255
 		mov r13b, [rax]
 		cmp [rax],r12b
 		jne bypassPixel
-		;Check R
+
+;sprawdzenie R
 		mov r12b, [r10]
 		mov r13b, [rax + 1]
 		cmp [rax + 1], r12b
 		jne bypassPixel
-		;Check G
+
+;sprawdzenie G
 		mov r12b, [r10 + 1]
 		mov r13b, [rax + 2]
 		cmp [rax + 2], r12b
 		jne bypassPixel
-		;Check B
+
+;sprawdzenie B
 		mov r12b, [r10 + 2]
 		mov r13b, [rax + 3]
 		cmp [rax + 3], r12b
 		jne bypassPixel
 		
-		;Clear pixel
+;wyczyszczenie piksela
 		xor r14,r14
 		mov [rax],r14b
 		mov [rax+1],r14b
@@ -114,14 +120,13 @@ lessThen16:
 		mov r13b,[rax+1]
 		mov r13b,[rax+2]
 		mov r13b,[rax+3]
+
 bypassPixel:
-		;If some byte of pixel is not equal to removable color than go to next pixel.
+;jezeli jakis bajt piksela nie jest rowny kolorowi do usuniecia przejdz do nastepnego piksela
 		sub r11, 4
-		
-		;CMP r11, 0 
-		;JZ exit	
 		add rax, 4
 		jmp lessThen16
+
 exit:
 mov rax,0
 ret
