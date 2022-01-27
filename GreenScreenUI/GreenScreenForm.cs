@@ -1,4 +1,17 @@
-﻿using System;
+﻿/*
+ *  Temat projektu: GreenScreen - usuwanie wybranego koloru ze zdjecia
+ *  Autor:          Jakub Polczyk
+ *  Semestr:        5
+ *  Rok Akademicki: 2021/2022
+ *  Opis algorytmu: Zdjecie konwertowane jest na postac Bitmapy, a nastepnie na ciag pikseli w postaci wartosci ARGB
+ *                  Dla wielowatkowosci - wartosci te sa rowno dzielone na tablice wedlug ilosci uzuwanych watkow.
+ *                  Nastepnie dla kazdej takiej tablicy kazdy piksel (RGB) porownywany jest z kolorem (RGB) wybranym przez uzytkownika.
+ *                  Jezeli kazda z wartosci jest taka sama, wszystkie wartosci ARGB sa ustawiane na 0.
+ *                  W kolenym kroku tablice sa ze soba zlaczane, konwertowane do postaci Bitmapy i do docelowego formatu zdjecia
+ *  Wersja:         Final Ultimate 1.0
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -18,7 +31,7 @@ namespace GreenScreenUI
         /*
          *  Dynamiczne zaimportowanie biblioteki DLL dla Assemblera
          */
-        [DllImport(@"C:\\GreenScreen\\x64\\Release\\GreenScreenAsm.dll")]
+        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenAsm.dll")]
 
         /*
          *  Metoda przyjmuje wskaznik na ciag pikseli ARGB, wskaznik na wartosci RGB wybranego koloru, rozmiar tablicy pikseli
@@ -29,7 +42,7 @@ namespace GreenScreenUI
         /*
          *  Dynamiczne zaimportowanie biblioteki DLL dla Cpp
          */
-        [DllImport(@"C:\\GreenScreen\\x64\\Release\\GreenScreenCpp.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\\GreenScreen\\x64\\Debug\\GreenScreenCpp.dll", CallingConvention = CallingConvention.Cdecl)]
 
         /*
          *  Metoda przyjmuje wskaznik na ciag pikseli ARGB, wskaznik na wartosci RGB wybranego koloru, rozmiar tablicy pikseli

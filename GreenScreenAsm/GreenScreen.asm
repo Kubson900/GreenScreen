@@ -1,4 +1,10 @@
 
+ ;  Temat projektu: GreenScreen - usuwanie wybranego koloru ze zdjecia
+ ;  Autor:          Jakub Polczyk
+ ;  Semestr:        5
+ ;  Rok Akademicki: 2021/2022
+ ;  Wersja:         Final Ultimate 1.0
+
 .data
 	dqwColorArray db 16 dup (?)									;Tablica, ktora uzupelni rejestr xmm bajtami koloru wybranego przez uzytkownika do usuniecia
 	
