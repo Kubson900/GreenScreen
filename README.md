@@ -7,6 +7,6 @@ The purpose of this GUI application is to remove picked color from image backgro
 ### GUI:
 * C# WindowsForms
 
-### Funcionality
+### Funcionality:
 * dynamic library C++
 * dynamic library ASM
